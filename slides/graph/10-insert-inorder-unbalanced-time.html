@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph 10: Comparison of unbalanced time of insert in order</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <h2>Graph 10: Comparison of unbalanced time of insert in order</h2>
+    <canvas id="myChart" width="800" height="400"></canvas>
+    
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        // AVL 数据点
+        const dataPointsAVL = [
+  {x: 10000, y: 9986},
+  {x: 20000, y: 19985},
+  {x: 30000, y: 29985},
+  {x: 40000, y: 39984},
+  {x: 50000, y: 49984},
+  {x: 60000, y: 59984},
+  {x: 70000, y: 69983},
+  {x: 80000, y: 79983},
+  {x: 90000, y: 89983},
+  {x: 100000, y: 99983},
+  {x: 110000, y: 109983},
+  {x: 120000, y: 119983},
+  {x: 130000, y: 129983},
+  {x: 140000, y: 139982},
+  {x: 150000, y: 149982},
+  {x: 160000, y: 159982},
+  {x: 170000, y: 169982},
+  {x: 180000, y: 179982},
+  {x: 190000, y: 189982},
+  {x: 200000, y: 199982},
+  {x: 300000, y: 299981},
+  {x: 400000, y: 399981},
+  {x: 500000, y: 499981},
+  {x: 600000, y: 599980},
+  {x: 700000, y: 699980},
+  {x: 800000, y: 799980},
+  {x: 900000, y: 899980},
+  {x: 1000000, y: 999980}
+]
+;
+
+        // BB[0.7] 数据点
+        const dataPointsBB = [
+  {x: 10000, y: 6902},
+  {x: 20000, y: 14034},
+  {x: 30000, y: 21098},
+  {x: 40000, y: 28162},
+  {x: 50000, y: 35314},
+  {x: 60000, y: 42440},
+  {x: 70000, y: 49558},
+  {x: 80000, y: 56549},
+  {x: 90000, y: 63289},
+  {x: 100000, y: 70232},
+  {x: 110000, y: 76943},
+  {x: 120000, y: 83628},
+  {x: 130000, y: 90378},
+  {x: 140000, y: 97041},
+  {x: 150000, y: 103834},
+  {x: 160000, y: 110590},
+  {x: 170000, y: 117248},
+  {x: 180000, y: 124018},
+  {x: 190000, y: 130752},
+  {x: 200000, y: 137654},
+  {x: 300000, y: 206579},
+  {x: 400000, y: 275223},
+  {x: 500000, y: 343229},
+  {x: 600000, y: 410843},
+  {x: 700000, y: 478677},
+  {x: 800000, y: 546321},
+  {x: 900000, y: 614770},
+  {x: 1000000, y: 683588}
+]
+;
+
+        const data = {
+            datasets: [
+                {
+                    label: 'AVL',
+                    data: dataPointsAVL,
+                    borderColor: 'red',
+                    fill: false,
+                    tension: 0.1,
+                    pointBackgroundColor: 'red',
+                    pointBorderColor: 'red'
+                },
+                {
+                    label: 'BB[0.7]',
+                    data: dataPointsBB,
+                    borderColor: 'orange',
+                    fill: false,
+                    tension: 0.1,
+                    pointBackgroundColor: 'orange',
+                    pointBorderColor: 'orange'
+                }
+            ]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Comparison of unbalanced time of insert in order (AVL vs BB[0.7])'
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        title: {
+                            display: true,
+                            text: 'Size'
+                        },
+                        ticks: {
+                            stepSize: 20000, 
+                            min: 9000, 
+                            max: 1000000 
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'unbalanced time/s'
+                        }
+                    }
+                }
+            }
+        };
+
+        const myChart = new Chart(ctx, config);
+    </script>
+</body>
+
+</html>

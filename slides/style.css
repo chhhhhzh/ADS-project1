@@ -1,0 +1,43 @@
+h1 {
+    text-transform: none !important;
+}
+h2 {
+    text-transform: none !important;
+}
+h3 {
+    text-transform: none !important;
+}
+h4 {
+    text-transform: none !important;
+}
+
+
+.slide-background {
+    position: relative;
+  }
+  .slide-background::before {
+    content: "";
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-image: url('image/ZJU logo.png');
+    background-size: 80px 80px; /* 调整图片大小 */
+    background-repeat: no-repeat;
+    width: 100px;
+    height: 100px;
+  }
+  .slide-background::after {
+    content: "";
+    position: absolute;
+    top: 20px;
+    left: 100px;
+    background-image: url('image/char.png');
+    background-size: 140px 80px; /* 调整图片大小 */
+    background-repeat: no-repeat;
+    width: 150px;
+    height: 150px;
+  }
+
+
+  
+  

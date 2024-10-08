@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph 6: Comparison of average depth of random insert</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <h2>Graph 6: Comparison of average depth of random insert</h2>
+    <canvas id="myChart" width="800" height="400"></canvas>
+    
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        // BST 数据点
+        const dataPointsBST = [
+            {x: 9944.0, y: 14.77},
+            {x: 19798.0, y: 16.15},
+            {x: 29554.0, y: 16.94},
+            {x: 39195.0, y: 17.5},
+            {x: 48758.0, y: 17.93},
+            {x: 58213.0, y: 18.29},
+            {x: 67599.0, y: 18.59},
+            {x: 76845.0, y: 18.86},
+            {x: 86059.0, y: 19.08},
+            {x: 95149.0, y: 19.28},
+            {x: 104137.0, y: 19.47},
+            {x: 112975.0, y: 19.64},
+            {x: 121702.0, y: 19.8},
+            {x: 130344.0, y: 19.94},
+            {x: 138918.0, y: 20.07},
+            {x: 147442.0, y: 20.19},
+            {x: 155923.0, y: 20.31},
+            {x: 164371.0, y: 20.41},
+            {x: 172881.0, y: 20.47},
+            {x: 181180.0, y: 20.56},
+            {x: 258820.0, y: 21.28},
+            {x: 329253.0, y: 21.75},
+            {x: 392804.0, y: 22.1},
+            {x: 450565.0, y: 22.38},
+            {x: 502846.0, y: 22.6},
+            {x: 549964.0, y: 22.78},
+            {x: 592932.0, y: 22.93},
+            {x: 631879.0, y: 23.1}
+        ];
+
+        // AVL 数据点
+        const dataPointsAVL = [
+            {x: 9947.0, y: 11.55},
+            {x: 19779.0, y: 12.55},
+            {x: 29526.0, y: 13.14},
+            {x: 39205.0, y: 13.55},
+            {x: 48789.0, y: 13.88},
+            {x: 58242.0, y: 14.14},
+            {x: 67623.0, y: 14.36},
+            {x: 76904.0, y: 14.55},
+            {x: 86106.0, y: 14.7},
+            {x: 95145.0, y: 14.85},
+            {x: 104075.0, y: 14.99},
+            {x: 112947.0, y: 15.12},
+            {x: 121628.0, y: 15.24},
+            {x: 130313.0, y: 15.34},
+            {x: 138868.0, y: 15.44},
+            {x: 147409.0, y: 15.53},
+            {x: 155885.0, y: 15.61},
+            {x: 164306.0, y: 15.68},
+            {x: 172777.0, y: 15.75},
+            {x: 181103.0, y: 15.79},
+            {x: 259497.0, y: 16.31},
+            {x: 329792.0, y: 16.68},
+            {x: 393562.0, y: 16.94},
+            {x: 451433.0, y: 17.14},
+            {x: 503476.0, y: 17.31},
+            {x: 550738.0, y: 17.44},
+            {x: 593376.0, y: 17.55},
+            {x: 632057.0, y: 17.64}
+        ];
+
+        // Splay 数据点
+        const dataPointsSplay = [
+            {x: 9948.0, y: 21.7},
+            {x: 19796.0, y: 21.81},
+            {x: 29529.0, y: 22.84},
+            {x: 39177.0, y: 24.99},
+            {x: 48757.0, y: 25.43},
+            {x: 58243.0, y: 26.82},
+            {x: 67612.0, y: 26.96},
+            {x: 76899.0, y: 24.59},
+            {x: 86054.0, y: 27.06},
+            {x: 95178.0, y: 25.68},
+            {x: 104127.0, y: 26.84},
+            {x: 113027.0, y: 26.55},
+            {x: 121905.0, y: 28.03},
+            {x: 130707.0, y: 26.34},
+            {x: 139358.0, y: 28.82},
+            {x: 147900.0, y: 27.97},
+            {x: 156396.0, y: 29.83},
+            {x: 164818.0, y: 26.96},
+            {x: 173111.0, y: 30.14},
+            {x: 181293.0, y: 28.14},
+            {x: 259213.0, y: 27.88},
+            {x: 329636.0, y: 29.74},
+            {x: 393305.0, y: 27.25},
+            {x: 451299.0, y: 28.91},
+            {x: 503404.0, y: 28.05},
+            {x: 550609.0, y: 28.23},
+            {x: 593337.0, y: 27.39},
+            {x: 632145.0, y: 27.19}
+        ];
+
+        // BB[0.7] 数据点
+        const dataPointsBB = [
+            {x: 9948, y: 11.63},
+            {x: 19788, y: 12.64},
+            {x: 29530, y: 13.23},
+            {x: 39196, y: 13.65},
+            {x: 48794, y: 13.97},
+            {x: 58249, y: 14.24},
+            {x: 67596, y: 14.46},
+            {x: 76819, y: 14.64},
+            {x: 86043, y: 14.81},
+            {x: 95151, y: 14.96},
+            {x: 104181, y: 15.09},
+            {x: 113093, y: 15.21},
+            {x: 121913, y: 15.32},
+            {x: 130685, y: 15.42},
+            {x: 139300, y: 15.52},
+            {x: 147828, y: 15.61},
+            {x: 156268, y: 15.69},
+            {x: 164641, y: 15.77},
+            {x: 172948, y: 15.84},
+            {x: 181133, y: 15.91},
+            {x: 259003, y: 16.43},
+            {x: 329576, y: 16.78},
+            {x: 393575, y: 17.05},
+            {x: 451445, y: 17.25},
+            {x: 503708, y: 17.41},
+            {x: 551014, y: 17.54},
+            {x: 593867, y: 17.65},
+            {x: 632169, y: 17.74}
+        ];
+
+        const data = {
+            datasets: [
+                {
+                    label: 'BST',
+                    data: dataPointsBST,
+                    borderColor: 'blue',
+                    fill: false,
+                    tension: 0.1,
+                    pointBackgroundColor: 'blue',
+                    pointBorderColor: 'blue'
+                },
+                {
+                    label: 'AVL',
+                    data: dataPointsAVL,
+                    borderColor: 'red',
+                    fill: false,
+                    tension: 0.1,
+                    pointBackgroundColor: 'red',
+                    pointBorderColor: 'red'
+                },
+                {
+                    label: 'Splay',
+                    data: dataPointsSplay,
+                    borderColor: 'green',
+                    fill: false,
+                    tension: 0.1,
+                    pointBackgroundColor: 'green',
+                    pointBorderColor: 'green'
+                },
+                {
+                    label: 'BB[0.7]',
+                    data: dataPointsBB,
+                    borderColor: 'orange',
+                    fill: false,
+                    tension: 0.1,
+                    pointBackgroundColor: 'orange',
+                    pointBorderColor: 'orange'
+                }
+            ]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Comparison of average depth of random insert(BST vs AVL vs Splay vs BB[0.7])'
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        title: {
+                            display: true,
+                            text: '插入次数'
+                        },
+                        ticks: {
+                            stepSize: 20000, 
+                            min: 9000, 
+                            max: 1000000 
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Average Depth'
+                        }
+                    }
+                }
+            }
+        };
+
+        const myChart = new Chart(ctx, config);
+    </script>
+</body>
+
+</html>
+
+

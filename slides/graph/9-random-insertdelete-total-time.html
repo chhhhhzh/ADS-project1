@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph 9: Comparison of total time of random insert and delete</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <h2>Graph 9: Comparison of total time of random insert and delete</h2>
+    <canvas id="myChart" width="800" height="400"></canvas>
+    
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        // BST 数据点
+        const dataPointsBST = [
+  {x: 4983, y: 0.001},
+  {x: 9895, y: 0.004},
+  {x: 14750, y: 0.007},
+  {x: 19674, y: 0.011},
+  {x: 24554, y: 0.015},
+  {x: 29268, y: 0.018},
+  {x: 33916, y: 0.022},
+  {x: 38555, y: 0.026},
+  {x: 43121, y: 0.031},
+  {x: 47651, y: 0.034},
+  {x: 52013, y: 0.036},
+  {x: 56426, y: 0.039},
+  {x: 60828, y: 0.04},
+  {x: 65178, y: 0.042},
+  {x: 69518, y: 0.046},
+  {x: 73751, y: 0.049},
+  {x: 78039, y: 0.051},
+  {x: 82304, y: 0.054},
+  {x: 86433, y: 0.057},
+  {x: 90487, y: 0.061},
+  {x: 129461, y: 0.106},
+  {x: 164617, y: 0.159},
+  {x: 196592, y: 0.193},
+  {x: 225606, y: 0.232},
+  {x: 251456, y: 0.277},
+  {x: 274905, y: 0.33},
+  {x: 296330, y: 0.378},
+  {x: 315670, y: 0.425}
+]
+;
+
+        // AVL 数据点
+        const dataPointsAVL = [
+  {x: 4965, y: 0.002},
+  {x: 9864, y: 0.008},
+  {x: 14639, y: 0.015},
+  {x: 19407, y: 0.024},
+  {x: 24197, y: 0.03},
+  {x: 28933, y: 0.033},
+  {x: 33619, y: 0.036},
+  {x: 38228, y: 0.039},
+  {x: 42934, y: 0.042},
+  {x: 47572, y: 0.049},
+  {x: 52009, y: 0.059},
+  {x: 56435, y: 0.066},
+  {x: 60933, y: 0.07},
+  {x: 65300, y: 0.074},
+  {x: 69629, y: 0.08},
+  {x: 73780, y: 0.088},
+  {x: 77993, y: 0.093},
+  {x: 82169, y: 0.098},
+  {x: 86380, y: 0.107},
+  {x: 90474, y: 0.117},
+  {x: 129481, y: 0.21},
+  {x: 164868, y: 0.277},
+  {x: 196724, y: 0.353},
+  {x: 225346, y: 0.456},
+  {x: 251457, y: 0.557},
+  {x: 275211, y: 0.677},
+  {x: 296502, y: 0.805},
+  {x: 315680, y: 0.922}
+]
+;
+
+        // Splay 数据点
+        const dataPointsSplay = [
+  {x: 5072, y: 0.004},
+  {x: 10100, y: 0.008},
+  {x: 14979, y: 0.01},
+  {x: 19766, y: 0.014},
+  {x: 24587, y: 0.016},
+  {x: 29328, y: 0.019},
+  {x: 33978, y: 0.022},
+  {x: 38505, y: 0.025},
+  {x: 43042, y: 0.028},
+  {x: 47631, y: 0.032},
+  {x: 52113, y: 0.036},
+  {x: 56603, y: 0.039},
+  {x: 60932, y: 0.043},
+  {x: 65415, y: 0.046},
+  {x: 69812, y: 0.049},
+  {x: 74065, y: 0.052},
+  {x: 78324, y: 0.055},
+  {x: 82603, y: 0.059},
+  {x: 86677, y: 0.063},
+  {x: 90785, y: 0.066},
+  {x: 129919, y: 0.112},
+  {x: 165224, y: 0.184},
+  {x: 197162, y: 0.233},
+  {x: 226044, y: 0.293},
+  {x: 252374, y: 0.357},
+  {x: 276052, y: 0.452},
+  {x: 297127, y: 0.571},
+  {x: 316316, y: 0.702}
+]
+;
+
+        // BB[0.7] 数据点
+        const dataPointsBB = [
+  {x: 4991, y: 0.004},
+  {x: 9903, y: 0.009},
+  {x: 14797, y: 0.014},
+  {x: 19523, y: 0.019},
+  {x: 24223, y: 0.025},
+  {x: 28972, y: 0.03},
+  {x: 33666, y: 0.036},
+  {x: 38215, y: 0.042},
+  {x: 42867, y: 0.049},
+  {x: 47424, y: 0.056},
+  {x: 52034, y: 0.06},
+  {x: 56567, y: 0.067},
+  {x: 60989, y: 0.071},
+  {x: 65356, y: 0.074},
+  {x: 69688, y: 0.078},
+  {x: 74027, y: 0.082},
+  {x: 78207, y: 0.085},
+  {x: 82300, y: 0.093},
+  {x: 86419, y: 0.1},
+  {x: 90607, y: 0.106},
+  {x: 129794, y: 0.148},
+  {x: 165035, y: 0.192},
+  {x: 196914, y: 0.236},
+  {x: 225885, y: 0.278},
+  {x: 251927, y: 0.328},
+  {x: 275624, y: 0.38},
+  {x: 297036, y: 0.439},
+  {x: 316355, y: 0.494}
+]
+;
+
+        const data = {
+            datasets: [
+                {
+                    label: 'BST',
+                    data: dataPointsBST,
+                    borderColor: 'blue',
+                    fill: false,
+                    tension: 0.1,
+                    pointBackgroundColor: 'blue',
+                    pointBorderColor: 'blue'
+                },
+                {
+                    label: 'AVL',
+                    data: dataPointsAVL,
+                    borderColor: 'red',
+                    fill: false,
+                    tension: 0.1,
+                    pointBackgroundColor: 'red',
+                    pointBorderColor: 'red'
+                },
+                {
+                    label: 'Splay',
+                    data: dataPointsSplay,
+                    borderColor: 'green',
+                    fill: false,
+                    tension: 0.1,
+                    pointBackgroundColor: 'green',
+                    pointBorderColor: 'green'
+                },
+                {
+                    label: 'BB[0.7]',
+                    data: dataPointsBB,
+                    borderColor: 'orange',
+                    fill: false,
+                    tension: 0.1,
+                    pointBackgroundColor: 'orange',
+                    pointBorderColor: 'orange'
+                }
+            ]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Comparison of total time of random insert and delete (BST vs AVL vs Splay vs BB[0.7])'
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        title: {
+                            display: true,
+                            text: '增删次数'
+                        },
+                        ticks: {
+                            stepSize: 20000, 
+                            min: 9000, 
+                            max: 1000000 
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'total time/s'
+                        }
+                    }
+                }
+            }
+        };
+
+        const myChart = new Chart(ctx, config);
+    </script>
+</body>
+
+</html>

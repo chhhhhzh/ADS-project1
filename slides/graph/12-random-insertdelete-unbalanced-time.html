@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph 12: Comparison of unbalanced time of random insert and delete</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <h2>Graph 12: Comparison of unbalanced time of random insert and delete</h2>
+    <canvas id="myChart" width="800" height="400"></canvas>
+    
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        // AVL 数据点
+        const dataPointsAVL = [
+  {x: 4965, y: 2341},
+  {x: 9864, y: 4576},
+  {x: 14639, y: 6843},
+  {x: 19407, y: 9122},
+  {x: 24197, y: 11350},
+  {x: 28933, y: 13710},
+  {x: 33619, y: 16048},
+  {x: 38228, y: 18298},
+  {x: 42934, y: 20647},
+  {x: 47572, y: 22938},
+  {x: 52009, y: 25192},
+  {x: 56435, y: 27496},
+  {x: 60933, y: 29692},
+  {x: 65300, y: 31915},
+  {x: 69629, y: 34159},
+  {x: 73780, y: 36328},
+  {x: 77993, y: 38535},
+  {x: 82169, y: 40795},
+  {x: 86380, y: 43031},
+  {x: 90474, y: 45280},
+  {x: 129481, y: 67144},
+  {x: 164868, y: 88916},
+  {x: 196724, y: 110075},
+  {x: 225346, y: 130717},
+  {x: 251457, y: 151039},
+  {x: 275211, y: 171260},
+  {x: 296502, y: 191186},
+  {x: 315680, y: 210889}
+]
+;
+
+        // BB[0.7] 数据点
+        const dataPointsBB = [
+  {x: 4991, y: 1107},
+  {x: 9903, y: 2161},
+  {x: 14797, y: 3279},
+  {x: 19523, y: 4365},
+  {x: 24223, y: 5395},
+  {x: 28972, y: 6452},
+  {x: 33666, y: 7533},
+  {x: 38215, y: 8590},
+  {x: 42867, y: 9636},
+  {x: 47424, y: 10697},
+  {x: 52034, y: 11716},
+  {x: 56567, y: 12728},
+  {x: 60989, y: 13777},
+  {x: 65356, y: 14815},
+  {x: 69688, y: 15829},
+  {x: 74027, y: 16860},
+  {x: 78207, y: 17880},
+  {x: 82300, y: 18885},
+  {x: 86419, y: 19900},
+  {x: 90607, y: 20930},
+  {x: 129794, y: 30621},
+  {x: 165035, y: 40083},
+  {x: 196914, y: 49066},
+  {x: 225885, y: 57724},
+  {x: 251927, y: 66070},
+  {x: 275624, y: 74225},
+  {x: 297036, y: 82184},
+  {x: 316355, y: 90037}
+]
+;
+
+        const data = {
+            datasets: [
+                {
+                    label: 'AVL',
+                    data: dataPointsAVL,
+                    borderColor: 'red',
+                    fill: false,
+                    tension: 0.1,
+                    pointBackgroundColor: 'red',
+                    pointBorderColor: 'red'
+                },
+                {
+                    label: 'BB[0.7]',
+                    data: dataPointsBB,
+                    borderColor: 'orange',
+                    fill: false,
+                    tension: 0.1,
+                    pointBackgroundColor: 'orange',
+                    pointBorderColor: 'orange'
+                }
+            ]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Comparison of unbalanced time of random insert and delete (AVL vs BB[0.7])'
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        title: {
+                            display: true,
+                            text: '增删次数'
+                        },
+                        ticks: {
+                            stepSize: 20000, 
+                            min: 9000, 
+                            max: 1000000 
+                        },
+                        suggestedMax: 1000000
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'unbalanced time/s'
+                        }
+                    }
+                }
+            }
+        };
+
+        const myChart = new Chart(ctx, config);
+    </script>
+</body>
+
+</html>

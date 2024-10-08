@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph 14: the average depth of random insertions AVL、BST、BB[0.7]拟合logN</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <h2>Graph 14: the average depth of random insertions AVL、BST、BB[0.7]拟合logN</h2>
+    <canvas id="myChart" width="800" height="400"></canvas>
+
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        // BST 数据点
+        const dataPointsBST = [
+            {x: Math.log10(9944.0), y: 14.77},
+            {x: Math.log10(19798.0), y: 16.15},
+            {x: Math.log10(29554.0), y: 16.94},
+            {x: Math.log10(39195.0), y: 17.5},
+            {x: Math.log10(48758.0), y: 17.93},
+            {x: Math.log10(58213.0), y: 18.29},
+            {x: Math.log10(67599.0), y: 18.59},
+            {x: Math.log10(76845.0), y: 18.86},
+            {x: Math.log10(86059.0), y: 19.08},
+            {x: Math.log10(95149.0), y: 19.28},
+            {x: Math.log10(104137.0), y: 19.47},
+            {x: Math.log10(112975.0), y: 19.64},
+            {x: Math.log10(121702.0), y: 19.8},
+            {x: Math.log10(130344.0), y: 19.94},
+            {x: Math.log10(138918.0), y: 20.07},
+            {x: Math.log10(147442.0), y: 20.19},
+            {x: Math.log10(155923.0), y: 20.31},
+            {x: Math.log10(164371.0), y: 20.41},
+            {x: Math.log10(172881.0), y: 20.47},
+            {x: Math.log10(181180.0), y: 20.56},
+            {x: Math.log10(258820.0), y: 21.28},
+            {x: Math.log10(329253.0), y: 21.75},
+            {x: Math.log10(392804.0), y: 22.1},
+            {x: Math.log10(450565.0), y: 22.38},
+            {x: Math.log10(502846.0), y: 22.6},
+            {x: Math.log10(549964.0), y: 22.78},
+            {x: Math.log10(592932.0), y: 22.93},
+            {x: Math.log10(631879.0), y: 23.1}
+        ];
+
+        // AVL 数据点
+        const dataPointsAVL = [
+            {x: Math.log10(9947.0), y: 11.55},
+            {x: Math.log10(19779.0), y: 12.55},
+            {x: Math.log10(29526.0), y: 13.14},
+            {x: Math.log10(39205.0), y: 13.55},
+            {x: Math.log10(48789.0), y: 13.88},
+            {x: Math.log10(58242.0), y: 14.14},
+            {x: Math.log10(67623.0), y: 14.36},
+            {x: Math.log10(76904.0), y: 14.55},
+            {x: Math.log10(86106.0), y: 14.7},
+            {x: Math.log10(95145.0), y: 14.85},
+            {x: Math.log10(104075.0), y: 14.99},
+            {x: Math.log10(112947.0), y: 15.12},
+            {x: Math.log10(121628.0), y: 15.24},
+            {x: Math.log10(130313.0), y: 15.34},
+            {x: Math.log10(138868.0), y: 15.44},
+            {x: Math.log10(147409.0), y: 15.53},
+            {x: Math.log10(155885.0), y: 15.61},
+            {x: Math.log10(164306.0), y: 15.68},
+            {x: Math.log10(172777.0), y: 15.75},
+            {x: Math.log10(181103.0), y: 15.79},
+            {x: Math.log10(259497.0), y: 16.31},
+            {x: Math.log10(329792.0), y: 16.68},
+            {x: Math.log10(393562.0), y: 16.94},
+            {x: Math.log10(451433.0), y: 17.14},
+            {x: Math.log10(503476.0), y: 17.31},
+            {x: Math.log10(550738.0), y: 17.44},
+            {x: Math.log10(593376.0), y: 17.55},
+            {x: Math.log10(632057.0), y: 17.64}
+        ];
+
+
+        // BB[0.7] 数据点
+        const dataPointsBB = [
+            {x: Math.log10(9948), y: 11.63},
+            {x: Math.log10(19788), y: 12.64},
+            {x: Math.log10(29530), y: 13.23},
+            {x: Math.log10(39196), y: 13.65},
+            {x: Math.log10(48794), y: 13.97},
+            {x: Math.log10(58249), y: 14.24},
+            {x: Math.log10(67596), y: 14.46},
+            {x: Math.log10(76819), y: 14.64},
+            {x: Math.log10(86043), y: 14.81},
+            {x: Math.log10(95151), y: 14.96},
+            {x: Math.log10(104181), y: 15.09},
+            {x: Math.log10(113093), y: 15.21},
+            {x: Math.log10(121913), y: 15.32},
+            {x: Math.log10(130685), y: 15.42},
+            {x: Math.log10(139300), y: 15.52},
+            {x: Math.log10(147828), y: 15.61},
+            {x: Math.log10(156268), y: 15.69},
+            {x: Math.log10(164641), y: 15.77},
+            {x: Math.log10(172948), y: 15.84},
+            {x: Math.log10(181133), y: 15.91},
+            {x: Math.log10(259003), y: 16.43},
+            {x: Math.log10(329576), y: 16.78},
+            {x: Math.log10(393575), y: 17.05},
+            {x: Math.log10(451445), y: 17.25},
+            {x: Math.log10(503708), y: 17.41},
+            {x: Math.log10(551014), y: 17.54},
+            {x: Math.log10(593867), y: 17.65},
+            {x: Math.log10(632169), y: 17.74}
+        ];
+
+        const data = {
+            datasets: [
+                {
+                    label: 'BST',
+                    data: dataPointsBST,
+                    borderColor: 'blue',
+                    fill: false,
+                    tension: 0.1,
+                    pointBackgroundColor: 'blue',
+                    pointBorderColor: 'blue'
+                },
+                {
+                    label: 'AVL',
+                    data: dataPointsAVL,
+                    borderColor: 'red',
+                    fill: false,
+                    tension: 0.1,
+                    pointBackgroundColor: 'red',
+                    pointBorderColor: 'red'
+                },
+                {
+                    label: 'BB[0.7]',
+                    data: dataPointsBB,
+                    borderColor: 'orange',
+                    fill: false,
+                    tension: 0.1,
+                    pointBackgroundColor: 'orange',
+                    pointBorderColor: 'orange'
+                }
+            ]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'the average depth of random insertions AVL、BST、BB[0.7]拟合logN'
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        title: {
+                            display: true,
+                            text: 'log插入次数'
+                        },
+                        ticks: {
+                            stepSize: 0.1, 
+                            min: Math.log10(9000), 
+                            max: Math.log10(1000000) 
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Average Depth'
+                        }
+                    }
+                }
+            }
+        };
+
+        const myChart = new Chart(ctx, config);
+    </script>
+</body>
+
+</html>

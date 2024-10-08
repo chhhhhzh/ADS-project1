@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph 7: Comparison of the average depth of Insert in order</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <h2>Graph 7: Comparison of the average depth of Insert in order</h2>
+    <canvas id="myChart" width="800" height="400"></canvas>
+    
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        const data = {
+            labels: [10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000, 
+                     110000, 120000, 130000, 140000, 150000, 160000, 170000, 180000, 190000, 200000, 
+                     300000, 400000, 500000, 600000, 700000,800000, 900000, 1000000],
+            datasets: [
+                {
+                    label: 'BST',
+                    data: [4999.5,9999.5,14999.5,19999.5,24999.5,29999.5,34999.5,39999.5,44999.5,
+                    49999.5,54999.5,59999.5,64999.5,69999.5,74999.5,79999.5,84999.5,89999.5,94999.5,99999.5,
+                        null, null, null, null, null, null, null, null],
+                    borderColor: 'blue',
+                    fill: false,
+                    tension: 0.1
+                },
+                {
+                    label: 'AVL',
+                    data: [11.36,12.36,12.91,13.36,13.69,13.9,14.12,14.36,14.54,14.68,14.81,
+                    14.91,14.99,15.13,15.25,15.36,15.49,15.54,15.62,15.69,16.25,16.69,16.95,17.25,17.5,
+                    17.69,17.83,17.95
+                    ],
+                    borderColor: 'red',
+                    fill: false,
+                    tension: 0.1
+                },
+                {
+                    label: 'Splay',
+                    data: [4999.5,9999.5,14999.5,19999.5,24999.5,29999.5,34999.5,39999.5,44999.5,
+                    49999.5,54999.5,59999.5,64999.5,69999.5,74999.5,79999.5,84999.5,89999.5,94999.5,99999.5,
+                        null, null, null, null, null, null, null, null],
+                    borderColor: 'green',
+                    fill: false,
+                    tension: 0.1
+                },
+                {
+                    label: 'BB[0.7]',
+                    data: [11.43,12.51,13.02,13.37,13.76,13.96,14.25,14.45,14.71,14.72,14.92,15.08,15.13,15.27,
+                    15.45,15.48,15.5,15.62,15.66,15.8,16.31,16.81,17.1,17.34,17.69,17.74,17.94,18.07
+                    ],
+                    borderColor: 'orange',
+                    fill: false,
+                    tension: 0.1
+                }
+            ]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Comparison of the average depth of Insert in order (BST vs AVL vs Splay vs BB[0.7])'
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        title: {
+                            display: true,
+                            text: 'Size'
+                        },
+                        ticks: {
+                            callback: function(value, index, values) {
+                                return Number(value).toLocaleString();
+                            },
+                            stepSize: 10000, 
+                            min: 10000,
+                            max: 1000000
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'average depth'
+                        }
+                    }
+                }
+            }
+        };
+
+        const myChart = new Chart(ctx, config);
+    </script>
+</body>
+
+</html>
